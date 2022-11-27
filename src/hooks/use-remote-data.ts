@@ -5,13 +5,6 @@ interface ParamsType {
   data_type: string;
 }
 
-type DataMold = {
-  userId: number;
-  id: number;
-  title: string;
-  completed: false;
-};
-
 const TOTAL = 200;
 const PER_PAGE = 10;
 
