@@ -1,15 +1,19 @@
-import { Text, Button, Stack } from "@mantine/core";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import { ThemeProvider } from "./theme-provider";
+import DashboardRoute from "./routes/dashboard";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <DashboardRoute />,
+  },
+]);
 
 export default function App() {
   return (
     <ThemeProvider>
-      <Stack align="center" mt={50}>
-        <Text size="xl" weight={500}>
-          Welcome to Mantine!
-        </Text>
-        <Button>Click the button</Button>
-      </Stack>
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
