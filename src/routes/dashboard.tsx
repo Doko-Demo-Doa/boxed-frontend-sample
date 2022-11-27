@@ -1,45 +1,80 @@
-import { Container, Pagination, Table } from "@mantine/core";
+import {
+  Container,
+  Loader,
+  Pagination,
+  Space,
+  Table,
+  Title,
+} from "@mantine/core";
+import { useSearchParams } from "react-router-dom";
 
-import useRemoteData from "../hooks/use-remote-data";
 import MasterLayout from "./_master-layout";
+import useRemoteData from "../hooks/use-remote-data";
 
-const elements = [
-  { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
-  { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
-  { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
-  { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
-  { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
-];
-
-const rows = elements.map((element) => (
-  <tr key={element.name}>
-    <td>{element.position}</td>
-    <td>{element.name}</td>
-    <td>{element.symbol}</td>
-    <td>{element.mass}</td>
-  </tr>
-));
+const TOTAL = 200;
+const PER_PAGE = 10;
 
 const DashboardRoute = () => {
-  const data = useRemoteData({
+  let [searchParams, setSearchParams] = useSearchParams();
+
+  const pageParsed = parseInt(searchParams.get("page") || "0") || 1;
+
+  const { data, isLoading } = useRemoteData({
     data_type: "todos",
-    page: 1,
+    page: pageParsed,
   });
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!data) {
+    return <Title>Empty Data</Title>;
+  }
+
+  const rows = data.map((element) => (
+    <tr key={element.id}>
+      <td>{element.id}</td>
+      <td>{element.title}</td>
+      <td>{element.completed}</td>
+    </tr>
+  ));
 
   return (
     <MasterLayout>
       <Container>
-        <Table>
+        <Title>Boxed data sample</Title>
+        <Pagination
+          total={TOTAL / PER_PAGE}
+          page={pageParsed}
+          onChange={(v) => setSearchParams({ page: v.toString() })}
+          siblings={1}
+          initialPage={1}
+          position="right"
+        />
+        <Space h="lg" />
+
+        <Table highlightOnHover striped verticalSpacing="lg">
           <thead>
             <tr>
-              <th>Element position</th>
-              <th>Element name</th>
-              <th>Symbol</th>
-              <th>Atomic mass</th>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Completed</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
         </Table>
+
+        <Space h="lg" />
+
+        <Pagination
+          total={TOTAL / PER_PAGE}
+          page={pageParsed}
+          onChange={(v) => setSearchParams({ page: v.toString() })}
+          siblings={1}
+          initialPage={1}
+          position="right"
+        />
       </Container>
     </MasterLayout>
   );
