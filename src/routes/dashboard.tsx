@@ -12,10 +12,10 @@ import {
 import { Prism } from "@mantine/prism";
 import { useSearchParams } from "react-router-dom";
 import { uniqBy } from "rambdax";
+import { useListState } from "@mantine/hooks";
 
 import MasterLayout from "./_master-layout";
 import useRemoteData from "../hooks/use-remote-data";
-import { useListState } from "@mantine/hooks";
 
 const TOTAL = 200;
 const PER_PAGE = 10;
