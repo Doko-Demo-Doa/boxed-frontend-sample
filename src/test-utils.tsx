@@ -5,7 +5,7 @@ import { render, renderHook, RenderOptions } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter } from "react-router-dom";
 
-import DashboardRoute from "./routes/dashboard";
+import DashboardRoute from "./features/dashboard/dashboard";
 
 const queryClient = new QueryClient({
   defaultOptions: {

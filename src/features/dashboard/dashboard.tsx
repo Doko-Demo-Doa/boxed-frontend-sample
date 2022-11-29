@@ -14,8 +14,9 @@ import { useSearchParams } from "react-router-dom";
 import { uniqBy } from "rambdax";
 import { useListState } from "@mantine/hooks";
 
-import MasterLayout from "./_master-layout";
-import useRemoteData from "../hooks/use-remote-data";
+import MasterLayout from "../_master-layout";
+import useRemoteData from "../../hooks/use-remote-data";
+import { TableSort } from "./sortable-table";
 
 const TOTAL = 200;
 const PER_PAGE = 10;
@@ -43,21 +44,6 @@ const DashboardRoute = () => {
     return <Title>Empty Data</Title>;
   }
 
-  const rows = data.map((element, idx) => (
-    <tr key={element.id}>
-      <td>{element.id}</td>
-      <td>{element.title}</td>
-      <td>
-        <Checkbox
-          defaultChecked={false}
-          onChange={(e) => {
-            onSelect(element, e.currentTarget.checked);
-          }}
-        />
-      </td>
-    </tr>
-  ));
-
   function onSelect(item: DataMold, isRemove: boolean) {
     let newList: Array<DataMold> = [];
     if (isRemove) {
@@ -82,16 +68,10 @@ const DashboardRoute = () => {
         />
         <Space h="lg" />
 
-        <Table highlightOnHover striped verticalSpacing="lg">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
+        <TableSort
+          data={data}
+          onSelect={(item, checked) => onSelect(item, checked)}
+        />
 
         <Space h="lg" />
 

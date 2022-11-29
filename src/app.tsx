@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 
 import { ThemeProvider } from "./theme-provider";
-import DashboardRoute from "./routes/dashboard";
+import DashboardRoute from "./features/dashboard/dashboard";
 
 const router = createBrowserRouter([
   {
