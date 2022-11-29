@@ -14,3 +14,21 @@ There are some notable packages:
 - [redux-toolkit](https://redux-toolkit.js.org/): The official, opinionated, batteries-included toolset for Redux. It is Redux with much less boilerplate code.
 
 Also, it comes with Light/Dark theme support. Try pressing `Cmd + J` (on Mac) or `Ctrl + J` (Windows / Linux) to see the magic ;)
+
+# Installation and running
+
+After cloning the project, just:
+
+```
+npm ci
+```
+
+(Yes, it's `ci`, not `i` or `install`, to avoid breaking changes).
+
+then:
+
+```
+npm run dev
+```
+
+Development server will live at http://localhost:5173/ , enjoy.
