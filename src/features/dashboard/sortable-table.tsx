@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   createStyles,
   Table,
@@ -17,7 +17,6 @@ import {
   IconChevronUp,
   IconSearch,
 } from "@tabler/icons";
-import { sort } from "rambdax";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -103,20 +102,18 @@ function sortData(
 
   return filterData(
     [...data].sort((a, b) => {
+      if (sortBy === "id") {
+        const aSort = a[sortBy];
+        const bSort = b[sortBy];
+        if (payload.reversed) {
+          return aSort < bSort ? -1 : 1;
+        }
+        return aSort < bSort ? 1 : -1;
+      }
       if (payload.reversed) {
-        // if (!isNaN(parseInt(a[sortBy].toString()))) {
-        //   return parseInt(b[sortBy].toString()) < parseInt(a[sortBy].toString())
-        //     ? 0
-        //     : 1;
-        // }
         return b[sortBy].toString().localeCompare(a[sortBy].toString());
       }
 
-      if (!isNaN(parseInt(a[sortBy].toString()))) {
-        return parseInt(b[sortBy].toString()) < parseInt(a[sortBy].toString())
-          ? 0
-          : 1;
-      }
       return a[sortBy].toString().localeCompare(b[sortBy].toString());
     }),
     payload.search
@@ -143,6 +140,13 @@ export function TableSort({ data, onSelect }: TableSortProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     );
   };
+
+  useEffect(() => {
+    setSortBy(null);
+    setSortedData(data);
+    setSearch("");
+    setReverseSortDirection(false);
+  }, [data]);
 
   const rows = sortedData.map((row, idx) => (
     <tr key={row.id}>
